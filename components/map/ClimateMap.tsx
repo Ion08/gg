@@ -132,10 +132,11 @@ export default function ClimateMap({
   }, [onLocationSelect]);
 
   useEffect(() => {
-    if (!mapRef.current || !baseLayer) return;
+    const map = mapRef.current;
+    if (!map || !baseLayer) return;
 
     if (baseLayerRef.current) {
-      mapRef.current.removeLayer(baseLayerRef.current);
+      map.removeLayer(baseLayerRef.current);
       baseLayerRef.current = null;
     }
 
@@ -159,18 +160,19 @@ export default function ClimateMap({
       layer.setOpacity(opacity);
     }
 
-    layer.addTo(mapRef.current);
+    layer.addTo(map);
     baseLayerRef.current = layer;
   }, [baseLayer]);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    const map = mapRef.current;
+    if (!map) return;
 
     const activeIds = new Set(overlayTiles.map((tile) => tile.id));
 
     Object.entries(overlayTileRefs.current).forEach(([id, layer]) => {
       if (!activeIds.has(id)) {
-        mapRef.current?.removeLayer(layer);
+        map.removeLayer(layer);
         delete overlayTileRefs.current[id];
       }
     });
@@ -203,7 +205,7 @@ export default function ClimateMap({
         layer.setOpacity(tile.opacity);
       }
 
-      layer.addTo(mapRef.current);
+      layer.addTo(map);
       overlayTileRefs.current[tile.id] = layer;
     });
   }, [overlayTiles]);
@@ -257,7 +259,7 @@ export default function ClimateMap({
     requestAnimationFrame(() => {
       try {
         map.panInsideBounds(WORLD_BOUNDS, { animate: false });
-      } catch (e) {
+      } catch {
         // Map pane might not be initialized yet, ignore error
       }
       map.invalidateSize();

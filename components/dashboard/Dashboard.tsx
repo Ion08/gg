@@ -17,7 +17,7 @@ import ExportButton from '@/components/ui/ExportButton';
 import ShareButton from '@/components/ui/ShareButton';
 import { getCurrentWeather } from '@/lib/api/openMeteo';
 import { getAirQuality } from '@/lib/api/openaq';
-import { getGlobalCO2Data, getGlobalTemperatureData, getArcticIceData } from '@/lib/api/co2';
+import { getGlobalCO2Data, getGlobalTemperatureData } from '@/lib/api/co2';
 import { processTimeSeriesForChart, getAQICategory, formatNumber } from '@/lib/utils/dataProcessing';
 import { exportToCSV, exportToJSON, exportToPDF, generateReport } from '@/lib/utils/export';
 import { TimeSeriesData } from '@/types/climate';
@@ -399,7 +399,7 @@ export default function Dashboard() {
     <div id="dashboard-content" className="relative h-screen w-full overflow-hidden bg-[#020816] text-slate-50">
       <ClimateMap
         center={mapCenter}
-        zoom={3}
+        zoom={2.4}
         onLocationSelect={handleLocationSelect}
         markers={mapMarkers}
         baseLayer={activeBaseLayer}
